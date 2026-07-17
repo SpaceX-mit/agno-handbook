@@ -5,7 +5,7 @@
 ```bash
 export MINIMAX_API_KEY="sk-cp-vkEj751v_1aMyUXzNAkeaXw90HnTQ8GbQubW85hBWHxHrR1PaRX-S_DVVWzDCpaVLhbJHxjzTBH7lv2pXmoWhyI5pyM9wevrFr3ggQBOfi73PaTfydZUpa0"
 export MINIMAX_BASE_URL="https://api.minimaxi.com/v1"
-export MINIMAX_MODEL="abab6.5-chat"  # M3 标准模型
+export MINIMAX_MODEL="MiniMax-M3"  # M3 最新模型
 ```
 
 ## 快速开始

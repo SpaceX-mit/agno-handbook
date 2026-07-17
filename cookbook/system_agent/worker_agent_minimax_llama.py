@@ -85,9 +85,9 @@ instructions = """\
 
 # 选项1: MiniMax (云服务)
 # 需要设置环境变量: export MINIMAX_API_KEY='your-key'
-# 如果使用 minimaxi.com (国内版)，需要设置 base_url
+# MiniMax CN 可用模型: MiniMax-M3, MiniMax-M2.7, MiniMax-M2.7-highspeed 等
 minimax_model = MiniMax(
-    id="abab6.5-chat",  # M3 模型 (标准版), 也可用 abab6.5s-chat (快速版)
+    id="MiniMax-M3",  # M3 最新模型
     base_url="https://api.minimaxi.com/v1",  # 国内版端点
 )
 
