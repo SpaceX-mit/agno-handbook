@@ -1,0 +1,108 @@
+ERROR: Traceback (most recent call last):
+  File "<string>", line 4, in <module>
+    from agno.tools.system_monitor import SystemMonitorTools
+  File "/home/bianbu/agno-riscv64/libs/agno/agno/tools/__init__.py", line 1, in <module>
+    from agno.tools.decorator import tool
+  File "/home/bianbu/agno-riscv64/libs/agno/agno/tools/decorator.py", line 4, in <module>
+    from agno.exceptions import RunCancelledException
+  File "/home/bianbu/agno-riscv64/libs/agno/agno/exceptions.py", line 5, in <module>
+    from agno.models.message import Message
+  File "/home/bianbu/agno-riscv64/libs/agno/agno/models/message.py", line 6, in <module>
+    from pydantic import BaseModel, ConfigDict, Field
+ModuleNotFoundError: No module named 'pydantic'
+
+ERROR: Traceback (most recent call last):
+  File "<string>", line 4, in <module>
+    from agno.tools.package_manager import PackageManagerTools
+  File "/home/bianbu/agno-riscv64/libs/agno/agno/tools/__init__.py", line 1, in <module>
+    from agno.tools.decorator import tool
+  File "/home/bianbu/agno-riscv64/libs/agno/agno/tools/decorator.py", line 4, in <module>
+    from agno.exceptions import RunCancelledException
+  File "/home/bianbu/agno-riscv64/libs/agno/agno/exceptions.py", line 5, in <module>
+    from agno.models.message import Message
+  File "/home/bianbu/agno-riscv64/libs/agno/agno/models/message.py", line 6, in <module>
+    from pydantic import BaseModel, ConfigDict, Field
+ModuleNotFoundError: No module named 'pydantic'
+
+ERROR: ls: cannot access '/home/bianbu/agno-riscv64/cookbook/system_agent/': No such file or directory
+
+=== Deploying System Agent to Worker Machine ===
+
+✓ Connected to worker machine
+
+Step 1: Pulling latest code...
+
+> cd /home/bianbu/agno-riscv64 && git pull
+已经是最新的。
+
+
+Step 2: Installing psutil...
+
+> cd /home/bianbu/agno-riscv64 && .venv/bin/pip install psutil
+Collecting psutil
+  Downloading psutil-7.2.2.tar.gz (493 kB)
+  Installing build dependencies: started
+  Installing build dependencies: finished with status 'done'
+  Getting requirements to build wheel: started
+  Getting requirements to build wheel: finished with status 'done'
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: psutil
+  Building wheel for psutil (pyproject.toml): started
+  Building wheel for psutil (pyproject.toml): finished with status 'done'
+  Created wheel for psutil: filename=psutil-7.2.2-cp36-abi3-linux_riscv64.whl size=160636 sha256=bcce6a7d9bc3185a3299f31f2cbc0d0d887f6d2d0c290cc1a646df56eb93f9b8
+  Stored in directory: /home/bianbu/.cache/pip/wheels/58/62/53/a03f566a81cad0bae24c62f1049184cd7e00904b1ee1793e94
+Successfully built psutil
+Installing collected packages: psutil
+Successfully installed psutil-7.2.2
+
+
+Step 3: Testing SystemMonitorTools...
+
+> cd /home/bianbu/agno-riscv64 && .venv/bin/python -c "
+import sys
+sys.path.insert(0, 'libs/agno')
+from agno.tools.system_monitor import SystemMonitorTools
+
+tools = SystemMonitorTools()
+print('System Info:')
+print(tools.get_system_info())
+print('\nCPU Usage:')
+print(tools.get_cpu_usage())
+print('\nMemory Info:')
+print(tools.get_memory_info())
+"
+✗ SystemMonitorTools test failed
+
+Step 4: Testing PackageManagerTools...
+
+> cd /home/bianbu/agno-riscv64 && .venv/bin/python -c "
+import sys
+sys.path.insert(0, 'libs/agno')
+from agno.tools.package_manager import PackageManagerTools
+
+tools = PackageManagerTools()
+print('Searching for python3:')
+print(tools.search_package('python3'))
+"
+✗ PackageManagerTools test failed
+
+Step 5: Verifying cookbook files...
+
+> ls -la /home/bianbu/agno-riscv64/cookbook/system_agent/
+✗ Cookbook files not found
+
+======================================================================
+Deployment Summary
+======================================================================
+Remote path: /home/bianbu/agno-riscv64/cookbook/system_agent/
+
+To use the system agent:
+  ssh bianbu@10.0.90.243
+  cd /home/bianbu/agno-riscv64
+  export OPENAI_API_KEY='your-key'
+  python cookbook/system_agent/cli.py
+
+Or run examples:
+  python cookbook/system_agent/examples.py 1
+======================================================================

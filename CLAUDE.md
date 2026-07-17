@@ -255,3 +255,29 @@ Agno-specific checks to always verify:
 - No agent creation inside loops (agents should be reused)
 - CLAUDE.md coding patterns are followed
 - No f-strings for print lines where there are no variables
+
+## Worker 机器
+
+> ⚠️ 内部凭据，仅限内网使用。以下为纯文本密码，注意本文件已随仓库提交。
+
+| 项 | 值 |
+|----|----|
+| 主机 | `10.0.90.243` |
+| 用户名 | `bianbu` |
+| 密码 | `bianbu` |
+| 工作路径 | `/home/bianbu/agno-riscv64` |
+
+**连接规则：SSH 连接时不要交互式提示输入密码，直接使用上面的密码。** 用 `sshpass` 携带密码非交互连接：
+
+```bash
+# 直接执行远程命令
+sshpass -p 'bianbu' ssh -o StrictHostKeyChecking=no bianbu@10.0.90.243 'cd /home/bianbu/bianbu-agentos && <command>'
+
+# 交互式登录
+sshpass -p 'bianbu' ssh -o StrictHostKeyChecking=no bianbu@10.0.90.243
+
+# 传文件
+sshpass -p 'bianbu' scp -o StrictHostKeyChecking=no <local> bianbu@10.0.90.243:/home/bianbu/bianbu-agentos/
+```
+
+若无 `sshpass`，先安装（Debian/Ubuntu：`apt-get install -y sshpass`）；无安装权限时可用 Python `paramiko` 携带密码连接。

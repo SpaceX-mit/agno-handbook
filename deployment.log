@@ -1,0 +1,130 @@
+=== Deploying Agno to 10.0.90.243 ===
+
+Connecting to bianbu@10.0.90.243...
+✓ Connected
+
+=== Step 1: Prepare directory ===
+
+> test -d /home/bianbu/agno-riscv64/.git
+Cloning repository to /home/bianbu/agno-riscv64...
+
+> git clone git@github.com:SpaceX-mit/agno-handbook.git /home/bianbu/agno-riscv64
+✓ Repository ready
+
+=== Step 2: Check Python environment ===
+
+> cd /home/bianbu/agno-riscv64 && python3 --version
+Python 3.14.4
+
+
+> cd /home/bianbu/agno-riscv64 && which pip3
+/usr/bin/pip3
+
+
+=== Step 3: Setup development environment ===
+Checking if .venv exists...
+
+> test -d /home/bianbu/agno-riscv64/.venv
+Creating .venv...
+
+> cd /home/bianbu/agno-riscv64 && python3 -m venv .venv
+
+Checking for setup scripts...
+
+> test -f /home/bianbu/agno-riscv64/scripts/dev_setup.sh
+Running dev_setup.sh...
+
+> cd /home/bianbu/agno-riscv64 && bash ./scripts/dev_setup.sh
+
+[38;5;208m
+     █████╗  ██████╗ ███╗   ██╗ ██████╗
+    ██╔══██╗██╔════╝ ████╗  ██║██╔═══██╗
+    ███████║██║  ███╗██╔██╗ ██║██║   ██║
+    ██╔══██║██║   ██║██║╚██╗██║██║   ██║
+    ██║  ██║╚██████╔╝██║ ╚████║╚██████╔╝
+    ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝
+[0m
+    [2mDevelopment Setup[0m
+
+    uv not found. Install: https://docs.astral.sh/uv/
+
+⚠ dev_setup.sh had issues, but continuing...
+
+=== Step 4: Setup demo environment ===
+
+> test -f /home/bianbu/agno-riscv64/scripts/demo_setup.sh
+Running demo_setup.sh...
+
+> cd /home/bianbu/agno-riscv64 && bash ./scripts/demo_setup.sh
+
+[38;5;208m
+     █████╗  ██████╗ ███╗   ██╗ ██████╗
+    ██╔══██╗██╔════╝ ████╗  ██║██╔═══██╗
+    ███████║██║  ███╗██╔██╗ ██║██║   ██║
+    ██╔══██║██║   ██║██║╚██╗██║██║   ██║
+    ██║  ██║╚██████╔╝██║ ╚████║╚██████╔╝
+    ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝
+[0m
+    [2mDemo Setup[0m
+
+    uv not found. Install: https://docs.astral.sh/uv/
+
+⚠ demo_setup.sh had issues
+
+=== Step 5: Verify installation ===
+
+> cd /home/bianbu/agno-riscv64 && ls -la
+total 108
+drwxrwxr-x  8 bianbu bianbu  4096 Jul 17 17:47 .
+drwxr-x--- 56 bianbu bianbu  4096 Jul 17 17:46 ..
+-rw-rw-r--  1 bianbu bianbu  4446 Jul 17 17:47 .cursorrules
+-rw-rw-r--  1 bianbu bianbu   171 Jul 17 17:47 .editorconfig
+drwxrwxr-x  7 bianbu bianbu  4096 Jul 17 17:47 .git
+drwxrwxr-x  4 bianbu bianbu  4096 Jul 17 17:47 .github
+-rw-rw-r--  1 bianbu bianbu  1312 Jul 17 17:47 .gitignore
+drwxrwxr-x  5 bianbu bianbu  4096 Jul 17 17:47 .venv
+-rw-rw-r--  1 bianbu bianbu  6233 Jul 17 17:47 AGENTS.md
+-rw-rw-r--  1 bianbu bianbu  7145 Jul 17 17:47 CLAUDE.md
+-rw-rw-r--  1 bianbu bianbu    72 Jul 17 17:47 CODEOWNERS
+-rw-rw-r--  1 bianbu bianbu  5214 Jul 17 17:47 CODE_OF_CONDUCT.md
+-rw-rw-r--  1 bianbu bianbu  9902 Jul 17 17:47 CONTRIBUTING.md
+-rw-rw-r--  1 bianbu bianbu 11343 Jul 17 17:47 LICENSE
+-rw-rw-r--  1 bianbu bianbu  4960 Jul 17 17:47 README.md
+drwxrwxr-x 26 bianbu bianbu  4096 Jul 17 17:47 cookbook
+drwxrwxr-x  5 bianbu bianbu  4096 Jul 17 17:47 libs
+drwxrwxr-x  2 bianbu bianbu  4096 Jul 17 17:47 scripts
+
+
+> cd /home/bianbu/agno-riscv64 && test -d .venv && echo '.venv exists' || echo '.venv missing'
+.venv exists
+
+
+> cd /home/bianbu/agno-riscv64 && test -d .venvs/demo && echo '.venvs/demo exists' || echo '.venvs/demo missing'
+.venvs/demo missing
+
+
+Testing agno import...
+
+> cd /home/bianbu/agno-riscv64 && .venv/bin/python -c 'import sys; sys.path.insert(0, "libs/agno"); import agno; print(f"Agno imported successfully from {agno.__file__}")'
+Agno imported successfully from /home/bianbu/agno-riscv64/libs/agno/agno/__init__.py
+
+✓ Agno can be imported
+
+============================================================
+=== Deployment Summary ===
+Remote path: /home/bianbu/agno-riscv64
+Host: 10.0.90.243
+
+To access the worker machine:
+  ssh bianbu@10.0.90.243
+  Password: bianbu
+
+To run cookbooks:
+  cd /home/bianbu/agno-riscv64
+  .venvs/demo/bin/python cookbook/<folder>/<file>.py
+
+To run tests:
+  cd /home/bianbu/agno-riscv64
+  source .venv/bin/activate
+  pytest libs/agno/tests/
+============================================================
