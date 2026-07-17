@@ -23,8 +23,6 @@ import sys
 from pathlib import Path
 
 from agno.agent import Agent
-from agno.models.minimax import MiniMax
-from agno.models.ollama import Ollama
 from agno.tools.file import FileTools
 from agno.tools.package_manager import PackageManagerTools
 from agno.tools.shell import ShellTools
@@ -42,6 +40,12 @@ def create_agent(model_type: str) -> Agent:
 
     # 选择模型
     if model_type == "minimax":
+        try:
+            from agno.models.minimax import MiniMax
+        except ImportError:
+            print("错误: MiniMax 模型不可用")
+            sys.exit(1)
+
         if not os.getenv("MINIMAX_API_KEY"):
             print("错误: MINIMAX_API_KEY 未设置")
             print("请运行: export MINIMAX_API_KEY='your-key'")
@@ -59,12 +63,26 @@ def create_agent(model_type: str) -> Agent:
         print(f"API端点: {base_url}")
 
     elif model_type == "ollama":
+        try:
+            from agno.models.ollama import Ollama
+        except ImportError:
+            print("错误: ollama 包未安装")
+            print("请运行: pip install ollama")
+            sys.exit(1)
+
         host = os.getenv("OLLAMA_HOST", "http://localhost:11434")
         model_id = os.getenv("OLLAMA_MODEL", "llama3.1")
         model = Ollama(id=model_id, host=host)
         print(f"使用模型: Ollama {model_id} @ {host}")
 
     elif model_type == "worker-llama":
+        try:
+            from agno.models.ollama import Ollama
+        except ImportError:
+            print("错误: ollama 包未安装")
+            print("请运行: pip install ollama")
+            sys.exit(1)
+
         host = "http://10.0.90.243:11434"
         model_id = os.getenv("OLLAMA_MODEL", "llama3.1")
         model = Ollama(id=model_id, host=host)
