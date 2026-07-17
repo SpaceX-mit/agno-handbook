@@ -11,7 +11,7 @@ echo
 # 设置你的配置
 export MINIMAX_API_KEY="sk-cp-vkEj751v_1aMyUXzNAkeaXw90HnTQ8GbQubW85hBWHxHrR1PaRX-S_DVVWzDCpaVLhbJHxjzTBH7lv2pXmoWhyI5pyM9wevrFr3ggQBOfi73PaTfydZUpa0"
 export MINIMAX_BASE_URL="https://api.minimaxi.com/v1"
-export MINIMAX_MODEL="abab6.5s-chat"
+export MINIMAX_MODEL="abab6.5-chat"
 
 echo "✓ MiniMax 配置:"
 echo "  API端点: $MINIMAX_BASE_URL"

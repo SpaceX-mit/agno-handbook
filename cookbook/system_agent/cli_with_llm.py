@@ -53,7 +53,7 @@ def create_agent(model_type: str) -> Agent:
 
         # 支持国内版 minimaxi.com
         base_url = os.getenv("MINIMAX_BASE_URL", "https://api.minimaxi.com/v1")
-        model_id = os.getenv("MINIMAX_MODEL", "abab6.5s-chat")
+        model_id = os.getenv("MINIMAX_MODEL", "abab6.5-chat")  # M3 模型
 
         model = MiniMax(
             id=model_id,
