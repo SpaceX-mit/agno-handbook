@@ -46,8 +46,17 @@ def create_agent(model_type: str) -> Agent:
             print("错误: MINIMAX_API_KEY 未设置")
             print("请运行: export MINIMAX_API_KEY='your-key'")
             sys.exit(1)
-        model = MiniMax(id="MiniMax-M3")
-        print(f"使用模型: MiniMax-M3")
+
+        # 支持国内版 minimaxi.com
+        base_url = os.getenv("MINIMAX_BASE_URL", "https://api.minimaxi.com/v1")
+        model_id = os.getenv("MINIMAX_MODEL", "abab6.5s-chat")
+
+        model = MiniMax(
+            id=model_id,
+            base_url=base_url
+        )
+        print(f"使用模型: MiniMax {model_id}")
+        print(f"API端点: {base_url}")
 
     elif model_type == "ollama":
         host = os.getenv("OLLAMA_HOST", "http://localhost:11434")
