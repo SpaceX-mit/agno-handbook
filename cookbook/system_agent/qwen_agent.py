@@ -36,7 +36,17 @@ def main():
         model=model,
         tools=[
             SystemMonitorTools(),
-            FileTools(base_dir=Path("/home/bianbu/agno-riscv64"), all=True),
+            FileTools(
+                base_dir=Path("/home/bianbu/agno-riscv64"),
+                enable_read_file=True,
+                enable_list_files=True,
+                enable_search_files=True,
+                # 关闭较少用的功能以减少工具定义 token 占用
+                enable_save_file=False,
+                enable_search_content=False,
+                enable_read_file_chunk=False,
+                enable_replace_file_chunk=False,
+            ),
         ],
         instructions="你是Linux系统管理员助手。简洁回答，用中文。",
     )

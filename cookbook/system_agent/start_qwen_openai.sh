@@ -20,7 +20,7 @@ if ! curl -s "$LLAMA_SERVER_HOST/health" > /dev/null 2>&1; then
         --model "$MODEL_PATH" \
         --host 0.0.0.0 \
         --port 11434 \
-        --ctx-size 4096 \
+        --ctx-size 16384 \
         --threads 8 \
         > llama_server.log 2>&1 &
 
