@@ -8,7 +8,7 @@ echo "  MiniMax CN (minimaxi.com) 配置"
 echo "========================================================================"
 echo
 
-# 设置你的配置
+# 设置你的配置 - 必须在这里设置
 export MINIMAX_API_KEY="sk-cp-vkEj751v_1aMyUXzNAkeaXw90HnTQ8GbQubW85hBWHxHrR1PaRX-S_DVVWzDCpaVLhbJHxjzTBH7lv2pXmoWhyI5pyM9wevrFr3ggQBOfi73PaTfydZUpa0"
 export MINIMAX_BASE_URL="https://api.minimaxi.com/v1"
 export MINIMAX_MODEL="MiniMax-M3"
@@ -17,6 +17,16 @@ echo "✓ MiniMax 配置:"
 echo "  API端点: $MINIMAX_BASE_URL"
 echo "  模型: $MINIMAX_MODEL"
 echo "  API密钥: ${MINIMAX_API_KEY:0:15}...${MINIMAX_API_KEY: -10}"
+echo
+
+# 检查环境变量是否设置
+if [ -z "$MINIMAX_MODEL" ]; then
+    echo "❌ 错误: MINIMAX_MODEL 未设置"
+    exit 1
+fi
+
+echo "验证环境变量:"
+echo "  MINIMAX_MODEL=$MINIMAX_MODEL"
 echo
 
 # 检查虚拟环境
