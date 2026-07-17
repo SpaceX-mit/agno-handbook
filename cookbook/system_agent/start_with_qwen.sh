@@ -10,7 +10,7 @@ echo
 
 # 配置
 LLAMA_SERVER_HOST="http://localhost:11434"
-MODEL_NAME="Qwen3.5-2B-Q4_0"
+MODEL_PATH="/home/bianbu/models/Qwen3.5-2B-Q4_0.gguf"
 
 # 检查 llama-server 是否运行
 echo "检查 llama-server 状态..."
@@ -40,9 +40,9 @@ source .venv/bin/activate
 echo "✓ 虚拟环境已激活"
 echo
 
-# 测试连接
+# 使用 llama-cpp-python 直接加载模型（不通过HTTP）
 echo "========================================================================"
-echo "测试 Qwen3.5-2B 连接"
+echo "启动 Worker System Agent (Qwen3.5-2B)"
 echo "========================================================================"
 echo
 
@@ -52,42 +52,51 @@ sys.path.insert(0, 'libs/agno')
 
 from agno.models.ollama import Ollama
 from agno.agent import Agent
+from agno.tools.system_monitor import SystemMonitorTools
+from agno.tools.file import FileTools
+from pathlib import Path
 
-print("创建 Qwen3.5-2B 模型...")
+print("创建 Qwen3.5-2B agent (通过 llama-server)...")
+
+# 使用 Ollama 模型连接到 llama-server
 model = Ollama(
-    id="Qwen3.5-2B-Q4_0",
+    id="qwen",  # 使用简单的ID
     host="http://localhost:11434"
 )
-print(f"✓ 模型: {model.id}")
 
-print("\n创建测试agent...")
 agent = Agent(
+    name="Worker系统助手",
     model=model,
-    instructions="你是一个友好的助手，用中文简洁回答。"
+    tools=[
+        SystemMonitorTools(),
+        FileTools(base_dir=Path("/home/bianbu/agno-riscv64"), all=True)
+    ],
+    instructions="你是专业的Linux系统管理员助手。回答简洁准确，使用中文。"
 )
 
-print("\n发送测试消息...")
-response = agent.run("你好，请用一句话介绍你自己")
-print(f"\n响应: {response.content}")
+print("✓ Agent 创建成功")
+print("\n开始交互式会话...")
+print("输入 'exit' 退出\n")
 
-print("\n✓ Qwen3.5-2B 连接成功！")
+while True:
+    try:
+        query = input("你: ").strip()
+        if not query:
+            continue
+        if query.lower() in ['exit', 'quit', 'bye']:
+            print("\n再见！")
+            break
+
+        print("\nAgent: ", end="", flush=True)
+        response = agent.run(query)
+        print(response.content)
+        print()
+
+    except KeyboardInterrupt:
+        print("\n\n再见！")
+        break
+    except Exception as e:
+        print(f"\n错误: {e}\n")
+        continue
 PYEOF
 
-if [ $? -eq 0 ]; then
-    echo
-    echo "========================================================================"
-    echo "启动 Worker System Agent"
-    echo "========================================================================"
-    echo
-
-    # 设置环境变量
-    export OLLAMA_HOST="http://localhost:11434"
-    export OLLAMA_MODEL="Qwen3.5-2B-Q4_0"
-
-    # 启动 agent
-    python cookbook/system_agent/cli_with_llm.py --model ollama
-else
-    echo
-    echo "❌ 连接测试失败"
-    exit 1
-fi
