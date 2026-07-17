@@ -117,7 +117,6 @@ def create_agent(model_type: str) -> Agent:
             ),
         ],
         markdown=True,
-        show_tool_calls=True,
         add_datetime_to_context=True,
     )
 

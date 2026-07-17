@@ -87,7 +87,7 @@ instructions = """\
 # 需要设置环境变量: export MINIMAX_API_KEY='your-key'
 # 如果使用 minimaxi.com (国内版)，需要设置 base_url
 minimax_model = MiniMax(
-    id="abab6.5s-chat",  # 或 "abab6.5-chat", "abab5.5-chat" 等
+    id="abab6.5s-chat",  # 推荐: abab6.5s-chat (快速), abab6.5-chat (标准)
     base_url="https://api.minimaxi.com/v1",  # 国内版端点
 )
 
@@ -144,7 +144,6 @@ worker_system_agent = Agent(
         ),
     ],
     markdown=True,
-    show_tool_calls=True,
     add_datetime_to_context=True,
 )
 
